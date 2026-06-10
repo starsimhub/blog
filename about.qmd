@@ -1,0 +1,15 @@
+---
+title: "About"
+about:
+  template: jolla
+  links:
+    - icon: globe
+      text: starsim.org
+      href: https://starsim.org
+    - icon: github
+      text: GitHub
+      href: https://github.com/starsimhub
+---
+
+The Starsim research blog: news, tutorials, and research updates from the
+[Starsim](https://starsim.org) agent-based modeling framework.

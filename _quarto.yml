@@ -1,0 +1,21 @@
+project:
+  type: website
+
+website:
+  description: "Starsim research blog"
+  site-url: https://starsimhub.github.io/blog
+  title: "Starsim Blog"
+  navbar:
+    right:
+      - about.qmd
+      - icon: github
+        href: https://github.com/starsimhub/blog
+format:
+  html:
+    theme:
+      - cosmo
+      - brand
+    css: styles.css
+
+
+

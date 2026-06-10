@@ -13,13 +13,13 @@ Starsim's built-in transmission model computes infection probability per contact
 
 <!-- more -->
 
-## The Reference Model
+## The reference model
 
 Mike Famulare and Wesley Wong built a multiscale agent-based model for Sabin 2 poliovirus transmission in Bangladesh, described in *"Multiscale model for forecasting Sabin 2 vaccine virus household and community transmission"*. The model captures community structure at three nested scales — households within *baris* (neighborhood compounds) within villages — with age-assortative mixing at each level. Transmission is driven by a dose-response function where viral shedding accumulates across contacts and immunity modulates susceptibility through a Hill-equation-style curve.
 
 The original Python implementation lives at [InstituteforDiseaseModeling/community-structure-mediates-polio-transmission](https://github.com/InstituteforDiseaseModeling/community-structure-mediates-polio-transmission). Our Starsim port is at [starsimhub/starsim-community-structure](https://github.com/starsimhub/starsim-community-structure).
 
-## Dose-Response in Starsim
+## Dose-response in Starsim
 
 The core challenge: Starsim's `Infection.step()` processes each network edge independently — `P = beta * rel_trans * rel_sus`. But for dose-response, we need to *accumulate* dose across all edges first, then apply a nonlinear function once per person. This required a new base class, `DoseResponseInfection`, that overrides the transmission step.
 
@@ -58,7 +58,7 @@ def infection_prob_func(module, sim, uids):
 
 This function is passed to `ss.bernoulli(p=infection_prob_func)`, which Starsim evaluates per-agent — each susceptible person rolls against their individual infection probability. Because dose is summed linearly before the nonlinear transform, it doesn't matter whether you get dose 10 from one contact or dose 5 from two — the total dose is the same. What the nonlinearity *does* capture is that infection probability saturates at high dose (diminishing returns) and that immunity reshapes the entire curve rather than simply scaling it.
 
-## In-Host Dynamics
+## In-host dynamics
 
 The within-host biology is faithfully ported from the reference model:
 
@@ -75,7 +75,7 @@ self.viral_shed[uids] = np.maximum(shed_min, predicted)
 
 **Shedding duration** is immunity-dependent and lognormally distributed — higher pre-challenge immunity shortens shedding. The model supports four poliovirus strains (S1, S2, S3, WPV) with strain-specific parameters for $\beta_s$, shedding duration, and variance.
 
-## Multi-Scale Network
+## Multi-scale network
 
 The reference model's network operates at three scales: household, bari (neighborhood), and village. A key insight from the reference implementation: **contacts are only generated FROM infectious agents**, not from the entire population. In the original code, `Transmission` objects are created only for shedding individuals, and these drive contact sampling at each scale.
 

@@ -5,8 +5,6 @@ date: "2026-06-09"
 categories: [starsim, dose-response, polio, agent-based-models, networks]
 ---
 
-# Polio dose-response transmission in Starsim
-
 Starsim's built-in transmission model computes infection probability per contact as `beta * rel_trans * rel_sus`. This works well for many diseases, but fecal-oral pathogens like polio are different: an individual accumulates viral dose from *all* their contacts throughout the day, and then a nonlinear dose-response function — modulated by host immunity — determines whether infection occurs. We ported [Wong & Famulare's multiscale polio community-structure model](https://github.com/InstituteforDiseaseModeling/community-structure-mediates-polio-transmission) into [Starsim](https://github.com/starsimhub/starsim), creating the framework's first dose-response transmission class.
 
 ![Household shedding heatmap](hh_shedding_heatmap.png)

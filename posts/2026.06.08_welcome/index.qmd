@@ -1,9 +1,9 @@
 ---
-title: "Welcome to the Starsim research blog"
+title: "Welcome to the Starsim blog"
 author: "Cliff Kerr"
 date: "2026-06-08"
 categories: [news]
 image: starsim-logo-light.png
 ---
 
-Welcome to the Starsim research blog! This is a place where we will share updates, insights, and findings from our research on health and epidemiological modeling.
+Welcome to the Starsim blog! Here we will share updates, insights, and findings from our research on health and epidemiological modeling, as well as information on tools and workflows that we find useful.

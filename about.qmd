@@ -1,7 +1,7 @@
 ---
 title: "About"
 about:
-  template: jolla
+  template: cosmo
   links:
     - icon: globe
       text: starsim.org
@@ -11,5 +11,5 @@ about:
       href: https://github.com/starsimhub
 ---
 
-The Starsim research blog: news, tutorials, and research updates from the
-[Starsim](https://starsim.org) agent-based modeling framework.
+The Starsim blog: news, tutorials, and research updates from the
+[Starsim](https://starsim.org) disease modeling framework.

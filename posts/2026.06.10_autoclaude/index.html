@@ -6,8 +6,10 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
+<meta name="author" content="Cliff Kerr">
+<meta name="dcterms.date" content="2026-06-10">
 
-<title>Starsim Blog</title>
+<title>How to watch and steer your agents from afar – Starsim Blog</title>
 <style>
 /* Default styles provided by pandoc.
 ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
@@ -26,25 +28,23 @@ ul.task-list li input[type="checkbox"] {
 </style>
 
 
-<script src="site_libs/quarto-nav/quarto-nav.js"></script>
-<script src="site_libs/quarto-nav/headroom.min.js"></script>
-<script src="site_libs/clipboard/clipboard.min.js"></script>
-<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
-<script src="site_libs/quarto-search/fuse.min.js"></script>
-<script src="site_libs/quarto-search/quarto-search.js"></script>
-<meta name="quarto:offset" content="./">
-<script src="site_libs/quarto-listing/list.min.js"></script>
-<script src="site_libs/quarto-listing/quarto-listing.js"></script>
-<script src="site_libs/quarto-html/quarto.js" type="module"></script>
-<script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
-<script src="site_libs/quarto-html/popper.min.js"></script>
-<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
-<script src="site_libs/quarto-html/anchor.min.js"></script>
-<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting-7f8f88aac4f3542376d5c11b86a4c14d.css" rel="stylesheet" id="quarto-text-highlighting-styles">
-<script src="site_libs/bootstrap/bootstrap.min.js"></script>
-<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap-32aa016638ae970660b03220f1a38438.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../../">
+<script src="../../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-7f8f88aac4f3542376d5c11b86a4c14d.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../site_libs/bootstrap/bootstrap-32aa016638ae970660b03220f1a38438.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -72,77 +72,19 @@ ul.task-list li input[type="checkbox"] {
     "search-label": "Search"
   }
 }</script>
-<script>
 
-  window.document.addEventListener("DOMContentLoaded", function (_event) {
-    const listingTargetEl = window.document.querySelector('#listing-listing .list');
-    if (!listingTargetEl) {
-      // No listing discovered, do not attach.
-      return; 
-    }
 
-    const options = {
-      valueNames: ['listing-date','listing-title','listing-author','listing-image','listing-description','listing-categories',{ data: ['index'] },{ data: ['categories'] },{ data: ['listing-date-sort'] },{ data: ['listing-file-modified-sort'] }],
-      
-      searchColumns: ["listing-date","listing-title","listing-author","listing-image","listing-description","listing-categories"],
-    };
+<link rel="stylesheet" href="../../styles.css">
+</head>
 
-    window['quarto-listings'] = window['quarto-listings'] || {};
-    window['quarto-listings']['listing-listing'] = new List('listing-listing', options);
-
-    if (window['quarto-listing-loaded']) {
-      window['quarto-listing-loaded']();
-    }
-  });
-
-  window.addEventListener('hashchange',() => {
-    if (window['quarto-listing-loaded']) {
-      window['quarto-listing-loaded']();
-    }
-  })
-  </script>
-
-  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
-  <script defer="" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
-
-<script type="text/javascript">
-const typesetMath = (el) => {
-  if (window.MathJax) {
-    // MathJax Typeset
-    window.MathJax.typeset([el]);
-  } else if (window.katex) {
-    // KaTeX Render
-    var mathElements = el.getElementsByClassName("math");
-    var macros = [];
-    for (var i = 0; i < mathElements.length; i++) {
-      var texText = mathElements[i].firstChild;
-      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
-        window.katex.render(texText.data, mathElements[i], {
-          displayMode: mathElements[i].classList.contains('display'),
-          throwOnError: false,
-          macros: macros,
-          fleqn: false
-        });
-      }
-    }
-  }
-}
-window.Quarto = {
-  typesetMath
-};
-</script>
-
-<link rel="stylesheet" href="styles.css">
-<link rel="alternate" type="application/rss+xml" title="Starsim Blog" href="index.xml" data-external="1"></head>
-
-<body class="nav-fixed quarto-light">
+<body class="nav-fixed fullcontent quarto-light">
 
 <div id="quarto-search-results"></div>
   <header id="quarto-header" class="headroom fixed-top quarto-banner">
     <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
       <div class="navbar-container container-fluid">
       <div class="navbar-brand-container mx-auto">
-    <a class="navbar-brand" href="./index.html">
+    <a class="navbar-brand" href="../../index.html">
     <span class="navbar-title">Starsim Blog</span>
     </a>
   </div>
@@ -153,7 +95,7 @@ window.Quarto = {
           <div class="collapse navbar-collapse" id="navbarCollapse">
             <ul class="navbar-nav navbar-nav-scroll ms-auto">
   <li class="nav-item">
-    <a class="nav-link" href="./about.html"> 
+    <a class="nav-link" href="../../about.html"> 
 <span class="menu-text">About</span></a>
   </li>  
   <li class="nav-item compact">
@@ -171,142 +113,84 @@ window.Quarto = {
 <!-- content -->
 <header id="title-block-header" class="quarto-title-block default page-columns page-full">
   <div class="quarto-title-banner page-columns page-full">
-    <div class="quarto-title column-page-left">
-      <h1 class="title">Starsim Blog</h1>
-                      </div>
+    <div class="quarto-title column-body">
+      <h1 class="title">How to watch and steer your agents from afar</h1>
+                                <div class="quarto-categories">
+                <div class="quarto-category">workflows</div>
+                <div class="quarto-category">ai</div>
+              </div>
+                  </div>
   </div>
     
   
-  <div class="quarto-title-meta column-page-left">
+  <div class="quarto-title-meta">
 
+      <div>
+      <div class="quarto-title-meta-heading">Author</div>
+      <div class="quarto-title-meta-contents">
+               <p>Cliff Kerr </p>
+            </div>
+    </div>
       
+      <div>
+      <div class="quarto-title-meta-heading">Published</div>
+      <div class="quarto-title-meta-contents">
+        <p class="date">June 10, 2026</p>
+      </div>
+    </div>
     
       
     </div>
     
   
-  </header><div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-full page-navbar">
+  </header><div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
 <!-- sidebar -->
 <!-- margin-sidebar -->
-    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
-        
-    <h5 class="quarto-listing-category-title">Categories</h5><div class="quarto-listing-category category-default"><div class="category" data-category="">All <span class="quarto-category-count">(3)</span></div><div class="category" data-category="YWdlbnQtYmFzZWQtbW9kZWxz">agent-based-models <span class="quarto-category-count">(1)</span></div><div class="category" data-category="YWk=">ai <span class="quarto-category-count">(1)</span></div><div class="category" data-category="ZG9zZS1yZXNwb25zZQ==">dose-response <span class="quarto-category-count">(1)</span></div><div class="category" data-category="bmV0d29ya3M=">networks <span class="quarto-category-count">(1)</span></div><div class="category" data-category="bmV3cw==">news <span class="quarto-category-count">(1)</span></div><div class="category" data-category="cG9saW8=">polio <span class="quarto-category-count">(1)</span></div><div class="category" data-category="c3RhcnNpbQ==">starsim <span class="quarto-category-count">(1)</span></div><div class="category" data-category="d29ya2Zsb3dz">workflows <span class="quarto-category-count">(1)</span></div></div></div>
+    
 <!-- main -->
-<main class="content quarto-banner-title-block column-page-left" id="quarto-document-content">
+<main class="content quarto-banner-title-block" id="quarto-document-content">
 
 
 
 
 
+<p>Claude Code can do wonderful things, but by default it asks for permission for <em>everything</em>. This means that it’s hard to step away and let it complete a task on its own; instead, it might get stuck for half an hour waiting for your permission to call a totally harmless command like <code>Bash(ls)</code>. There are <a href="https://pub.spillwave.com/from-approval-hell-to-just-do-it-how-agent-skills-fork-governed-sub-agents-in-claude-code-2-1-c0438416433a?gi=0a9833d67d89">many</a> <a href="https://medium.com/@alonwo/the-end-of-yes-yes-yes-whatever-how-claude-codes-sandboxing-solves-the-approval-fatigue-in-5db709b2d423">ways</a> <a href="https://levelup.gitconnected.com/why-i-stopped-fearing-claude-codes-most-dangerous-flag-4f698996ca8d">around</a> this, but this post describes one approach we’ve found useful for Starsim development.</p>
+<p><strong>Prerequisites:</strong> Claude Code, Codex, or another terminal-based coding agent; a Mac or Linux laptop; access to a virtual machine (optional); and a smartphone.</p>
+<section id="the-magical-auto-permission-mode" class="level2">
+<h2 class="anchored" data-anchor-id="the-magical-auto-permission-mode">The magical <code>auto</code> permission mode</h2>
+<p>Recently (May 2026), Claude Code introduced an <code>auto</code> permission mode. Whereas <code>default</code> asked about everything and <code>dontAsk</code> was extremely limited in what it could do, <code>auto</code> uses its (considerable!) judgement about what’s safe or not. Invoking <code>claude --permission-mode auto</code> will activate this mode (and this setting will persist across sessions, including in e.g.&nbsp;VS Code). This mode doesn’t eliminate permission prompts, but removes ~99% of them, which makes it much more feasible to give Claude a big task and then walk away.</p>
+<p>If you don’t want to give Claude <code>auto</code> access to your own computer, a good alternative is to spin up a virtual machine, clone the repo you’re working on, and start a Claude session there. (You don’t need a big VM; even just a “free tier” VM will probably suffice.) But then it’s running on a VM, and that means it’s a pain to access, right? Not necessarily …</p>
+</section>
+<section id="watching-from-afar" class="level2">
+<h2 class="anchored" data-anchor-id="watching-from-afar">Watching from afar</h2>
+<blockquote class="blockquote">
+<p><em>Note:</em> Claude provides a feature called <a href="https://code.claude.com/docs/en/remote-control">Remote Control</a> that lets you control sessions from the web, but this can be fragile for long-running sessions, and isn’t available on all accounts.</p>
+</blockquote>
+<p>Since our coding agent is running in the terminal, <code>ssh</code> is the tool of choice for linking different devices, including phones. But it’s typically a paint to SSH directly from one device to another, thanks to the (very worthwhile) security measures like firewalls.</p>
+<p>While there are again multiple ways to solve this this, a simple (and free, though proprietary) solution is <a href="https://tailscale.com/">Tailscale</a>. Installing Tailscale on your laptop and phone (and/or VM) effectively creates a personal VPN connecting the devices, letting you interconnect them from anywhere.</p>
+<p>The last step of the process is how to keep the Claude session running even if you disconnect from it – which is the problem <code>tmux</code> solves. You can start a <code>tmux</code> session on the VM, then connect to it and control it from both your phone and laptop.</p>
+<p>To recap, the steps are:</p>
+<ol type="1">
+<li>Install &amp; sign into Tailscale on each of your devices</li>
+<li>Ensure your “main” device (your laptop or VM) has an SSH server running</li>
+<li>Start a <code>tmux</code> session on the main device, e.g.&nbsp;<code>tmux new -s claude</code></li>
+<li>Start a Claude session inside the <code>tmux</code> session</li>
+<li>Give it a task to get started with</li>
+<li>SSH into the main device from your phone or other device</li>
+<li>Connect to the <code>tmux</code> session: <code>tmux attach -t claude</code></li>
+</ol>
+<p>Now you can control the Claude session from your other device.</p>
+</section>
+<section id="how-weve-used-this-in-starsim" class="level2">
+<h2 class="anchored" data-anchor-id="how-weve-used-this-in-starsim">How we’ve used this in Starsim</h2>
+<p>For literally years, we’ve put off the task of migrating <a href="https://covasim.org">Covasim</a> into the Starsim framework. But Covasim still has an active user base, so we wanted to prioritize getting the port done.</p>
+<p>Porting Covasim is a huge task: ~10,000 lines of code, much of it written 5+ years ago. However, it is also fairly well-defined: the code should use Starsim classes, but produce (statistically) identical results to the current version of Covasim. Plus, we’ve ported <a href="https://hpvsim.org">HPVsim</a> to Starsim, which has a similar structure to Covasim.</p>
+<p>This was the perfect task for this workflow. I started a Claude session on a VM with <code>--permission-mode auto</code>, gave it a detailed 10-step spec for doing the port, and told it to check in after each step for approval. The port took Claude roughly 14 hours (with less than half an hour human time), and I was able to monitor progress and approve steps from my phone.</p>
 
 
+</section>
 
-
-<div class="quarto-listing quarto-listing-container-default" id="listing-listing">
-<div class="list quarto-listing-default">
-<div class="quarto-post image-right" data-index="0" data-categories="d29ya2Zsb3dzJTJDYWk=" data-listing-date-sort="1781064000000" data-listing-file-modified-sort="1781123465913" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="4" data-listing-word-count-sort="648">
-<div class="thumbnail"><a href="./posts/2026.06.10_autoclaude/index.html" class="no-external">
-
-<img loading="lazy" src="./posts/2026.06.10_autoclaude/claude.png" class="thumbnail-image">
-
-</a></div>
-<div class="body">
-<h3 class="no-anchor listing-title">
-<a href="./posts/2026.06.10_autoclaude/index.html" class="no-external">How to watch and steer your agents from afar</a>
-</h3>
-<div class="listing-categories">
-
-<div class="listing-category" onclick="window.quartoListingCategory('d29ya2Zsb3dz'); return false;">workflows</div>
-
-<div class="listing-category" onclick="window.quartoListingCategory('YWk='); return false;">ai</div>
-
-</div>
-<div class="delink listing-description"><a href="./posts/2026.06.10_autoclaude/index.html" class="no-external">
-Claude Code can do wonderful things, but by default it asks for permission for <em>everything</em>. This means that it’s hard to step away and let it complete a task on its own;…<code></code>
-</a></div>
-</div>
-<div class="metadata">
-<a href="./posts/2026.06.10_autoclaude/index.html" class="no-external">
-<div class="listing-date">
-Jun 10, 2026
-</div>
-<div class="listing-author">
-Cliff Kerr
-</div>
-</a>
-</div>
-</div>
-<div class="quarto-post image-right" data-index="1" data-categories="c3RhcnNpbSUyQ2Rvc2UtcmVzcG9uc2UlMkNwb2xpbyUyQ2FnZW50LWJhc2VkLW1vZGVscyUyQ25ldHdvcmtz" data-listing-date-sort="1780977600000" data-listing-file-modified-sort="1781119643671" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="5" data-listing-word-count-sort="971">
-<div class="thumbnail"><a href="./posts/2026.06.09_dose-response/index.html" class="no-external">
-
-<p class="card-img-top"><img loading='lazy' src="posts/2026.06.09_dose-response/hh_shedding_heatmap.png"  class="thumbnail-image card-img"/></p>
-
-</a></div>
-<div class="body">
-<h3 class="no-anchor listing-title">
-<a href="./posts/2026.06.09_dose-response/index.html" class="no-external">Polio dose-response transmission in Starsim</a>
-</h3>
-<div class="listing-categories">
-
-<div class="listing-category" onclick="window.quartoListingCategory('c3RhcnNpbQ=='); return false;">starsim</div>
-
-<div class="listing-category" onclick="window.quartoListingCategory('ZG9zZS1yZXNwb25zZQ=='); return false;">dose-response</div>
-
-<div class="listing-category" onclick="window.quartoListingCategory('cG9saW8='); return false;">polio</div>
-
-<div class="listing-category" onclick="window.quartoListingCategory('YWdlbnQtYmFzZWQtbW9kZWxz'); return false;">agent-based-models</div>
-
-<div class="listing-category" onclick="window.quartoListingCategory('bmV0d29ya3M='); return false;">networks</div>
-
-</div>
-<div class="delink listing-description"><a href="./posts/2026.06.09_dose-response/index.html" class="no-external">
-Starsim’s built-in transmission model computes infection probability per contact as <code>beta * rel_trans * rel_sus</code>. This works well for many diseases, but fecal-oral pathogens…<em></em>
-</a></div>
-</div>
-<div class="metadata">
-<a href="./posts/2026.06.09_dose-response/index.html" class="no-external">
-<div class="listing-date">
-Jun 9, 2026
-</div>
-<div class="listing-author">
-Daniel Klein
-</div>
-</a>
-</div>
-</div>
-<div class="quarto-post image-right" data-index="2" data-categories="bmV3cw==" data-listing-date-sort="1780891200000" data-listing-file-modified-sort="1781123528203" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="1" data-listing-word-count-sort="33">
-<div class="thumbnail"><a href="./posts/2026.06.08_welcome/index.html" class="no-external">
-
-<img loading="lazy" src="./posts/2026.06.08_welcome/starsim-logo-light.png" class="thumbnail-image">
-
-</a></div>
-<div class="body">
-<h3 class="no-anchor listing-title">
-<a href="./posts/2026.06.08_welcome/index.html" class="no-external">Welcome to the Starsim blog</a>
-</h3>
-<div class="listing-categories">
-
-<div class="listing-category" onclick="window.quartoListingCategory('bmV3cw=='); return false;">news</div>
-
-</div>
-<div class="delink listing-description"><a href="./posts/2026.06.08_welcome/index.html" class="no-external">
-Welcome to the Starsim blog! Here we will share updates, insights, and findings from our research on health and epidemiological modeling, as well as information on tools and…
-</a></div>
-</div>
-<div class="metadata">
-<a href="./posts/2026.06.08_welcome/index.html" class="no-external">
-<div class="listing-date">
-Jun 8, 2026
-</div>
-<div class="listing-author">
-Cliff Kerr
-</div>
-</a>
-</div>
-</div>
-</div>
-<div class="listing-no-matching d-none">No matching items</div>
-</div></main> <!-- /main -->
+</main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
   window.document.addEventListener("DOMContentLoaded", function (event) {
     const icon = "";

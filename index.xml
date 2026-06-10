@@ -1,0 +1,262 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss  xmlns:atom="http://www.w3.org/2005/Atom" 
+      xmlns:media="http://search.yahoo.com/mrss/" 
+      xmlns:content="http://purl.org/rss/1.0/modules/content/" 
+      xmlns:dc="http://purl.org/dc/elements/1.1/" 
+      version="2.0">
+<channel>
+<title>Starsim Blog</title>
+<link>https://starsimhub.github.io/blog/</link>
+<atom:link href="https://starsimhub.github.io/blog/index.xml" rel="self" type="application/rss+xml"/>
+<description>Starsim research blog</description>
+<generator>quarto-1.9.37</generator>
+<lastBuildDate>Tue, 09 Jun 2026 04:00:00 GMT</lastBuildDate>
+<item>
+  <title>Polio dose-response transmission in Starsim</title>
+  <dc:creator>Daniel Klein</dc:creator>
+  <link>https://starsimhub.github.io/blog/posts/2026.06.09_dose-response/</link>
+  <description><![CDATA[ 
+
+
+
+
+
+<section id="polio-dose-response-transmission-in-starsim" class="level1">
+<h1>Polio dose-response transmission in Starsim</h1>
+<p>Starsim’s built-in transmission model computes infection probability per contact as <code>beta * rel_trans * rel_sus</code>. This works well for many diseases, but fecal-oral pathogens like polio are different: an individual accumulates viral dose from <em>all</em> their contacts throughout the day, and then a nonlinear dose-response function — modulated by host immunity — determines whether infection occurs. We ported <a href="https://github.com/InstituteforDiseaseModeling/community-structure-mediates-polio-transmission">Wong &amp; Famulare’s multiscale polio community-structure model</a> into <a href="https://github.com/starsimhub/starsim">Starsim</a>, creating the framework’s first dose-response transmission class.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="https://starsimhub.github.io/blog/posts/2026.06.09_dose-response/hh_shedding_heatmap.png" class="img-fluid figure-img"></p>
+<figcaption>Household shedding heatmap</figcaption>
+</figure>
+</div>
+<!-- more -->
+<section id="the-reference-model" class="level2">
+<h2 class="anchored" data-anchor-id="the-reference-model">The Reference Model</h2>
+<p>Mike Famulare and Wesley Wong built a multiscale agent-based model for Sabin 2 poliovirus transmission in Bangladesh, described in <em>“Multiscale model for forecasting Sabin 2 vaccine virus household and community transmission”</em>. The model captures community structure at three nested scales — households within <em>baris</em> (neighborhood compounds) within villages — with age-assortative mixing at each level. Transmission is driven by a dose-response function where viral shedding accumulates across contacts and immunity modulates susceptibility through a Hill-equation-style curve.</p>
+<p>The original Python implementation lives at <a href="https://github.com/InstituteforDiseaseModeling/community-structure-mediates-polio-transmission">InstituteforDiseaseModeling/community-structure-mediates-polio-transmission</a>. Our Starsim port is at <a href="https://github.com/starsimhub/starsim-community-structure">starsimhub/starsim-community-structure</a>.</p>
+</section>
+<section id="dose-response-in-starsim" class="level2">
+<h2 class="anchored" data-anchor-id="dose-response-in-starsim">Dose-Response in Starsim</h2>
+<p>The core challenge: Starsim’s <code>Infection.step()</code> processes each network edge independently — <code>P = beta * rel_trans * rel_sus</code>. But for dose-response, we need to <em>accumulate</em> dose across all edges first, then apply a nonlinear function once per person. This required a new base class, <code>DoseResponseInfection</code>, that overrides the transmission step.</p>
+<p>The dose-response formula from the reference model:</p>
+<p><img src="https://latex.codecogs.com/png.latex?%0AP(%5Ctext%7Binfection%7D%20%5Cmid%20d,%20%5Ctext%7BNAb%7D)%20=%201%20-%20%5Cleft(1%20+%20%5Cfrac%7Bd%7D%7B%5Cbeta_s%7D%5Cright)%5E%7B-%5Calpha%20%5Ccdot%20%5Ctext%7BNAb%7D%5E%7B-%5Cgamma%7D%7D%0A"></p>
+<p>where <img src="https://latex.codecogs.com/png.latex?d"> is accumulated dose, <img src="https://latex.codecogs.com/png.latex?%5Cbeta_s"> is a strain-specific scale parameter, <img src="https://latex.codecogs.com/png.latex?%5Calpha"> controls the shape, and <img src="https://latex.codecogs.com/png.latex?%5Cgamma"> controls how immunity dampens susceptibility. Higher NAb (neutralizing antibody) immunity flattens the curve — you need exponentially more dose to infect.</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="https://starsimhub.github.io/blog/posts/2026.06.09_dose-response/dose_response_curves.png" class="img-fluid figure-img"></p>
+<figcaption>Dose-response curves</figcaption>
+</figure>
+</div>
+<p>The transmission step has two phases. First, <strong>accumulate dose</strong> from all networks using <code>np.add.at</code> (which safely handles multiple edges to the same person):</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><span class="kw" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">def</span> accumulate_dose(<span class="va" style="color: #111111;
+background-color: null;
+font-style: inherit;">self</span>):</span>
+<span id="cb1-2">    <span class="va" style="color: #111111;
+background-color: null;
+font-style: inherit;">self</span>.challenge_dose[:] <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> <span class="fl" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">0.0</span></span>
+<span id="cb1-3">    <span class="cf" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">for</span> network <span class="kw" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">in</span> <span class="va" style="color: #111111;
+background-color: null;
+font-style: inherit;">self</span>.sim.networks.values():</span>
+<span id="cb1-4">        p1, p2, beta_edge <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> network.edges.p1, network.edges.p2, network.edges.beta</span>
+<span id="cb1-5">        scale <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> <span class="va" style="color: #111111;
+background-color: null;
+font-style: inherit;">self</span>.pars.beta <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">*</span> <span class="va" style="color: #111111;
+background-color: null;
+font-style: inherit;">self</span>.pars.fecal_oral_dose</span>
+<span id="cb1-6">        np.add.at(dose_raw, p1, scale <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">*</span> beta_edge <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">*</span> rel_trans_raw[p2])</span>
+<span id="cb1-7">        np.add.at(dose_raw, p2, scale <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">*</span> beta_edge <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">*</span> rel_trans_raw[p1])</span></code></pre></div></div>
+<p>Then, <strong>challenge susceptibles</strong> using the dose-response function. Each person’s infection probability is computed from their total accumulated dose and current immunity:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><span class="at" style="color: #657422;
+background-color: null;
+font-style: inherit;">@staticmethod</span></span>
+<span id="cb2-2"><span class="kw" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">def</span> infection_prob_func(module, sim, uids):</span>
+<span id="cb2-3">    dose <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> module.challenge_dose[uids]</span>
+<span id="cb2-4">    nab <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> module.immunity_nab[uids]</span>
+<span id="cb2-5">    p <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> module.pars</span>
+<span id="cb2-6">    <span class="cf" style="color: #003B4F;
+background-color: null;
+font-weight: bold;
+font-style: inherit;">return</span> <span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">1</span> <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">-</span> (<span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">1</span> <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">+</span> dose <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">/</span> p.beta_scale) <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">**</span> (<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">-</span>p.alpha <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">*</span> nab <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">**</span> (<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">-</span>p.gamma))</span></code></pre></div></div>
+<p>This function is passed to <code>ss.bernoulli(p=infection_prob_func)</code>, which Starsim evaluates per-agent — each susceptible person rolls against their individual infection probability. Because dose is summed linearly before the nonlinear transform, it doesn’t matter whether you get dose 10 from one contact or dose 5 from two — the total dose is the same. What the nonlinearity <em>does</em> capture is that infection probability saturates at high dose (diminishing returns) and that immunity reshapes the entire curve rather than simply scaling it.</p>
+</section>
+<section id="in-host-dynamics" class="level2">
+<h2 class="anchored" data-anchor-id="in-host-dynamics">In-Host Dynamics</h2>
+<p>The within-host biology is faithfully ported from the reference model:</p>
+<p><strong>Immunity waning</strong> uses power-law decay (not exponential): <img src="https://latex.codecogs.com/png.latex?%5Ctext%7BNAb%7D(t)%20=%20%5Ctext%7BNAb%7D_%7B%5Ctext%7Bpeak%7D%7D%20%5Ccdot%20(t/30)%5E%7B-r%7D">. This distinction matters for OPV reversion epidemiology — power-law decay has a long tail where immunity remains above baseline for years, unlike exponential decay which rapidly returns to zero.</p>
+<p><strong>Shedding intensity</strong> varies with time since infection, age, and immunity. Infants shed at peak concentrations of <img src="https://latex.codecogs.com/png.latex?10%5E%7B6.7%7D"> CCID50/g while adults peak at <img src="https://latex.codecogs.com/png.latex?10%5E%7B4.3%7D">, and pre-existing immunity further reduces the peak. The temporal profile follows a log-normal-in-time shape:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb3" style="background: #f1f3f5;"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1">predicted <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> (<span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">10</span><span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">**</span>peak_cid50) <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">*</span> np.exp(</span>
+<span id="cb3-2">    eta <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">-</span> <span class="fl" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">0.5</span> <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">*</span> v<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">**</span><span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">2</span> <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">-</span> (log_term<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">**</span><span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">2</span>) <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">/</span> (<span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">2</span> <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">*</span> variance<span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">**</span><span class="dv" style="color: #AD0000;
+background-color: null;
+font-style: inherit;">2</span>)</span>
+<span id="cb3-3">) <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">/</span> t_days</span>
+<span id="cb3-4"><span class="va" style="color: #111111;
+background-color: null;
+font-style: inherit;">self</span>.viral_shed[uids] <span class="op" style="color: #5E5E5E;
+background-color: null;
+font-style: inherit;">=</span> np.maximum(shed_min, predicted)</span></code></pre></div></div>
+<p><strong>Shedding duration</strong> is immunity-dependent and lognormally distributed — higher pre-challenge immunity shortens shedding. The model supports four poliovirus strains (S1, S2, S3, WPV) with strain-specific parameters for <img src="https://latex.codecogs.com/png.latex?%5Cbeta_s">, shedding duration, and variance.</p>
+</section>
+<section id="multi-scale-network" class="level2">
+<h2 class="anchored" data-anchor-id="multi-scale-network">Multi-Scale Network</h2>
+<p>The reference model’s network operates at three scales: household, bari (neighborhood), and village. A key insight from the reference implementation: <strong>contacts are only generated FROM infectious agents</strong>, not from the entire population. In the original code, <code>Transmission</code> objects are created only for shedding individuals, and these drive contact sampling at each scale.</p>
+<p>We replicated this pattern in Starsim by having <code>BariNet</code> and <code>VillageNet</code> check the disease module’s <code>is_shedding</code> state in <code>add_pairs()</code>. Our initial implementation generated contacts for <em>all</em> agents every timestep, which was faithful but slow — O(n_agents) per step. Switching to infectious-only contact generation brought this down to O(n_infectious), matching the reference model’s design and cutting runtime from minutes to seconds. Both the reference model and our port run at <code>dt = 1 day</code>, with contacts sampled fresh each timestep — no persistent edges. In Starsim, this is achieved by setting <code>dur=0</code> on bari/village edges. (Starsim does support persistent edges with <code>dur &gt; 0</code> if longer-lasting contact relationships are needed for other applications.)</p>
+<p>At each scale, contacts are sampled with age-weighted probabilities from 81x81 age-mixing matrices. The bari layer uses a 3-Gaussian mixture (capturing multi-generational household structure), while the village layer uses a 1-Gaussian + uniform background model. Here are the empirical sampling distributions compared to the reference matrices:</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="https://starsimhub.github.io/blog/posts/2026.06.09_dose-response/network_analysis_bari_81x81.png" class="img-fluid figure-img"></p>
+<figcaption>Bari age-contact matrix</figcaption>
+</figure>
+</div>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="https://starsimhub.github.io/blog/posts/2026.06.09_dose-response/network_analysis_village_81x81.png" class="img-fluid figure-img"></p>
+<figcaption>Village age-contact matrix</figcaption>
+</figure>
+</div>
+<p>The three layers are mutually exclusive: household handles within-household, bari handles within-bari excluding own household, and village handles between-bari contacts.</p>
+</section>
+<section id="results" class="level2">
+<h2 class="anchored" data-anchor-id="results">Results</h2>
+<p>The full model runs 1000 agents over 2 years in ~4 seconds — fast enough for interactive exploration. Here’s a sample epidemic with Sabin type 2:</p>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="https://starsimhub.github.io/blog/posts/2026.06.09_dose-response/results.png" class="img-fluid figure-img"></p>
+<figcaption>Epidemic results</figcaption>
+</figure>
+</div>
+</section>
+<section id="whats-next" class="level2">
+<h2 class="anchored" data-anchor-id="whats-next">What’s Next</h2>
+<ul>
+<li><strong>Generalize <code>DoseResponseInfection</code> into Starsim core</strong> — the base class is disease-agnostic and could support cholera, norovirus, rotavirus, and other fecal-oral pathogens</li>
+<li><strong>CRN-safe networks</strong> — we explored several approaches (1D CDF embedding, multi-pass per-Gaussian, seeker/target interleaving) but found that nearest-neighbor matching in small baris (~50 agents) doesn’t produce sufficient age structure. This remains an open design challenge.</li>
+<li><strong>Realistic demographics</strong> — replace synthetic DHS data with actual household composition data from Bangladesh</li>
+</ul>
+<p>Code: <a href="https://github.com/starsimhub/starsim-community-structure">starsimhub/starsim-community-structure</a></p>
+
+
+</section>
+</section>
+
+ ]]></description>
+  <category>starsim</category>
+  <category>dose-response</category>
+  <category>polio</category>
+  <category>agent-based-models</category>
+  <category>networks</category>
+  <guid>https://starsimhub.github.io/blog/posts/2026.06.09_dose-response/</guid>
+  <pubDate>Tue, 09 Jun 2026 04:00:00 GMT</pubDate>
+</item>
+<item>
+  <title>Welcome to the Starsim research blog</title>
+  <dc:creator>Cliff Kerr</dc:creator>
+  <link>https://starsimhub.github.io/blog/posts/2026.06.08_welcome/</link>
+  <description><![CDATA[ 
+
+
+
+
+
+<p>Welcome to the Starsim research blog! This is a place where we will share updates, insights, and findings from our research on health and epidemiological modeling.</p>
+
+
+
+ ]]></description>
+  <category>news</category>
+  <guid>https://starsimhub.github.io/blog/posts/2026.06.08_welcome/</guid>
+  <pubDate>Mon, 08 Jun 2026 04:00:00 GMT</pubDate>
+  <media:content url="https://starsimhub.github.io/blog/posts/2026.06.08_welcome/starsim-logo-light.png" medium="image" type="image/png" height="33" width="144"/>
+</item>
+</channel>
+</rss>

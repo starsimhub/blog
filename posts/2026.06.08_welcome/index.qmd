@@ -2,7 +2,7 @@
 title: "Welcome to the Starsim blog"
 author: "Cliff Kerr"
 date: "2026-06-08"
-categories: [news]
+categories: [News]
 image: starsim-logo-light.png
 ---
 

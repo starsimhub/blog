@@ -2,7 +2,7 @@
 title: "How to watch and steer your agents from afar"
 author: "Cliff Kerr"
 date: "2026-06-10"
-categories: [workflows, ai]
+categories: [AI, Workflows, Compute]
 image: claude.png
 ---
 

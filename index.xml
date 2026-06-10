@@ -59,8 +59,9 @@
 </section>
 
  ]]></description>
-  <category>workflows</category>
-  <category>ai</category>
+  <category>AI</category>
+  <category>Workflows</category>
+  <category>Compute</category>
   <guid>https://starsimhub.github.io/blog/posts/2026.06.10_autoclaude/</guid>
   <pubDate>Wed, 10 Jun 2026 04:00:00 GMT</pubDate>
   <media:content url="https://starsimhub.github.io/blog/posts/2026.06.10_autoclaude/claude.png" medium="image" type="image/png" height="85" width="144"/>
@@ -281,11 +282,10 @@ font-style: inherit;">=</span> np.maximum(shed_min, predicted)</span></code></pr
 </section>
 
  ]]></description>
-  <category>starsim</category>
-  <category>dose-response</category>
-  <category>polio</category>
-  <category>agent-based-models</category>
-  <category>networks</category>
+  <category>Dose response</category>
+  <category>Polio</category>
+  <category>Agent based models</category>
+  <category>Networks</category>
   <guid>https://starsimhub.github.io/blog/posts/2026.06.09_dose-response/</guid>
   <pubDate>Tue, 09 Jun 2026 04:00:00 GMT</pubDate>
 </item>
@@ -304,7 +304,7 @@ font-style: inherit;">=</span> np.maximum(shed_min, predicted)</span></code></pr
 
 
  ]]></description>
-  <category>news</category>
+  <category>News</category>
   <guid>https://starsimhub.github.io/blog/posts/2026.06.08_welcome/</guid>
   <pubDate>Mon, 08 Jun 2026 04:00:00 GMT</pubDate>
   <media:content url="https://starsimhub.github.io/blog/posts/2026.06.08_welcome/starsim-logo-light.png" medium="image" type="image/png" height="33" width="144"/>

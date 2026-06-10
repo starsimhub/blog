@@ -1,7 +1,7 @@
 ---
 title: "About"
 about:
-  template: cosmo
+  template: jolla
   links:
     - icon: globe
       text: starsim.org

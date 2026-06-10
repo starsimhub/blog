@@ -21,7 +21,7 @@
 
 
 
-<p><img src="https://starsimhub.github.io/blog/home/cliffk/idm/blog/posts/2026.06.10_autoclaude/claude.png" class="img-fluid"></p>
+<p><img src="https://starsimhub.github.io/blog/posts/2026.06.10_autoclaude/claude.png" class="img-fluid"></p>
 <p>Claude Code can do wonderful things, but by default it asks for permission for <em>everything</em>. This means that it’s hard to step away and let it complete a task on its own; instead, it might get stuck for half an hour waiting for your permission to call a totally harmless command like <code>Bash(ls)</code>. There are <a href="https://pub.spillwave.com/from-approval-hell-to-just-do-it-how-agent-skills-fork-governed-sub-agents-in-claude-code-2-1-c0438416433a?gi=0a9833d67d89">many</a> <a href="https://medium.com/@alonwo/the-end-of-yes-yes-yes-whatever-how-claude-codes-sandboxing-solves-the-approval-fatigue-in-5db709b2d423">ways</a> <a href="https://levelup.gitconnected.com/why-i-stopped-fearing-claude-codes-most-dangerous-flag-4f698996ca8d">around</a> this, but this post describes one approach we’ve found useful for Starsim development.</p>
 <p><strong>Prerequisites:</strong> Claude Code, Codex, or another terminal-based coding agent; a Mac or Linux laptop; access to a virtual machine (optional); and a smartphone.</p>
 <section id="the-magical-auto-permission-mode" class="level2">

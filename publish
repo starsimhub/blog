@@ -2,4 +2,4 @@
 # Build & publish site to GitHub Pages
 set -euo pipefail # Fail fast if needed
 
-quarto publish gh-pages
+quarto publish gh-pages --no-prompt

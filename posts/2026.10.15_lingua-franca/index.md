@@ -4,7 +4,10 @@ author: "Cliff Kerr"
 date: "2026-10-15"
 description: "One language for compartmental, metapopulation, and agent-based models, built on Starsim and tested against 23 models from 12 other frameworks."
 categories: [Starsim, AI, News]
+image: tower-of-babel.jpg
 ---
+
+![*The Tower of Babel*, Pieter Bruegel the Elder, 1563. Kunsthistorisches Museum, Vienna. Public domain, via [Wikimedia Commons](https://commons.wikimedia.org/wiki/File:Pieter_Bruegel_the_Elder_-_The_Tower_of_Babel_(Vienna)_-_Google_Art_Project_-_edited.jpg).](tower-of-babel.jpg)
 
 **TL;DR.** We are designing a *lingua franca* for epidemic modeling: one small vocabulary that can express compartmental, stochastic, metapopulation, and agent-based models, picks a solver for you, and lets models move between frameworks and paradigms. It will be released as Starsim v4. To keep ourselves honest, we have translated 23 models from 12 other frameworks into it. The translations agree with the originals in every case at fixed parameter values (a few differ in details, each of which is traced to a cause), and 20 of the 23 take fewer lines of code (often 3 to 6 times fewer). On speed it is a work in progress: 14 of 23 are as fast or faster than the original.
 

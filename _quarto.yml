@@ -1,5 +1,9 @@
 project:
   type: website
+  render:
+    - "*.qmd"
+    - "posts/**/*.md"
+    - "posts/**/*.qmd"
 
 website:
   description: "Starsim research blog"

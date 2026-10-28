@@ -21,6 +21,7 @@ image: headline-figure.png   # optional
 - `categories` are free-form keywords and become filters on the index page. Reuse an existing spelling where one fits (see below).
 - Don't repeat the title as an `# H1` in the body; Quarto renders it from the frontmatter.
 - Put citations (authors, title, journal, DOI, code links) in the body, e.g. a **Source.** line near the top.
+- Add `draft: true` to keep a finished or in-progress post off the published site (it still shows in `quarto preview`). To publish it, remove the line and update `date`.
 
 ## Keywords
 

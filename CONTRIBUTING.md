@@ -21,6 +21,7 @@ image: headline-figure.png   # optional
 - `categories` are free-form keywords and become filters on the index page. Reuse an existing spelling where one fits (see below).
 - Don't repeat the title as an `# H1` in the body; Quarto renders it from the frontmatter.
 - Put citations (authors, title, journal, DOI, code links) in the body, e.g. a **Source.** line near the top.
+- Add `draft: true` to keep a finished or in-progress post off the published site (it still shows in `quarto preview`). To publish it, remove the line and update `date`.
 
 ## Keywords
 
@@ -40,7 +41,7 @@ Save figures in the post folder and reference them with relative paths: `![Capti
 
 ## Previewing
 
-Install [Quarto](https://quarto.org), then run `quarto preview` from the repo root. `./publish` builds and publishes the site to GitHub Pages.
+Install [Quarto](https://quarto.org), then run `quarto preview` from the repo root. The site is built and published to GitHub Pages automatically on every merge to `main` (see [`.github/workflows/publish.yml`](.github/workflows/publish.yml)); `./publish` does the same manually.
 
 ## Writing posts with Claude
 

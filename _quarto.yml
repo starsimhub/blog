@@ -10,8 +10,14 @@ website:
   site-url: https://starsimhub.github.io/blog
   title: "Starsim Blog"
   navbar:
+    logo: images/starsim-logo.png
+    logo-alt: "Starsim logo"
+    title: "Blog"
+    background: light
     right:
       - about.qmd
+      - text: starsim.org
+        href: https://starsim.org
       - icon: github
         href: https://github.com/starsimhub/blog
 format:
@@ -20,6 +26,7 @@ format:
       - cosmo
       - brand
     css: styles.css
+    mainfont: Raleway
 
 
 

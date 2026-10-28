@@ -290,26 +290,6 @@ font-style: inherit;">=</span> np.maximum(shed_min, predicted)</span></code></pr
   <pubDate>Tue, 09 Jun 2026 00:00:00 GMT</pubDate>
 </item>
 <item>
-  <title>Welcome to the Starsim blog</title>
-  <dc:creator>Cliff Kerr</dc:creator>
-  <link>https://starsimhub.github.io/blog/posts/2026.06.08_welcome/</link>
-  <description><![CDATA[ 
-
-
-
-
-
-<p>Welcome to the Starsim blog! Here we will share updates, insights, and findings from our research on health and epidemiological modeling, as well as information on tools and workflows that we find useful.</p>
-
-
-
- ]]></description>
-  <category>News</category>
-  <guid>https://starsimhub.github.io/blog/posts/2026.06.08_welcome/</guid>
-  <pubDate>Mon, 08 Jun 2026 00:00:00 GMT</pubDate>
-  <media:content url="https://starsimhub.github.io/blog/posts/2026.06.08_welcome/starsim-logo-light.png" medium="image" type="image/png" height="33" width="144"/>
-</item>
-<item>
   <title>Modeling vaginal microbiome therapies for HIV and preterm birth in South Africa</title>
   <dc:creator>Robyn Stuart</dc:creator>
   <link>https://starsimhub.github.io/blog/posts/2026.03.15_vmb-hiv-ptb-south-africa/</link>

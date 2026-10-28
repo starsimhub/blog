@@ -5,6 +5,7 @@ date: "2026-10-15"
 description: "One language for compartmental, metapopulation, and agent-based models, built on Starsim and tested against 23 models from 12 other frameworks."
 categories: [Starsim, AI, News]
 image: tower-of-babel.jpg
+draft: true
 ---
 
 ![*The Tower of Babel*, Pieter Bruegel the Elder, 1563. Kunsthistorisches Museum, Vienna. Public domain, via [Wikimedia Commons](https://commons.wikimedia.org/wiki/File:Pieter_Bruegel_the_Elder_-_The_Tower_of_Babel_(Vienna)_-_Google_Art_Project_-_edited.jpg).](tower-of-babel.jpg)

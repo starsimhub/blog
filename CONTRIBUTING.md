@@ -40,7 +40,7 @@ Save figures in the post folder and reference them with relative paths: `![Capti
 
 ## Previewing
 
-Install [Quarto](https://quarto.org), then run `quarto preview` from the repo root. `./publish` builds and publishes the site to GitHub Pages.
+Install [Quarto](https://quarto.org), then run `quarto preview` from the repo root. The site is built and published to GitHub Pages automatically on every merge to `main` (see [`.github/workflows/publish.yml`](.github/workflows/publish.yml)); `./publish` does the same manually.
 
 ## Writing posts with Claude
 

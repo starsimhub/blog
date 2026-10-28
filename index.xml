@@ -9,8 +9,8 @@
 <link>https://starsimhub.github.io/blog/</link>
 <atom:link href="https://starsimhub.github.io/blog/index.xml" rel="self" type="application/rss+xml"/>
 <description>Starsim research blog</description>
-<generator>quarto-1.9.37</generator>
-<lastBuildDate>Wed, 10 Jun 2026 04:00:00 GMT</lastBuildDate>
+<generator>quarto-1.10.19</generator>
+<lastBuildDate>Wed, 10 Jun 2026 00:00:00 GMT</lastBuildDate>
 <item>
   <title>How to watch and steer your agents from afar</title>
   <dc:creator>Cliff Kerr</dc:creator>
@@ -63,7 +63,7 @@
   <category>Workflows</category>
   <category>Compute</category>
   <guid>https://starsimhub.github.io/blog/posts/2026.06.10_autoclaude/</guid>
-  <pubDate>Wed, 10 Jun 2026 04:00:00 GMT</pubDate>
+  <pubDate>Wed, 10 Jun 2026 00:00:00 GMT</pubDate>
   <media:content url="https://starsimhub.github.io/blog/posts/2026.06.10_autoclaude/claude.png" medium="image" type="image/png" height="85" width="144"/>
 </item>
 <item>
@@ -287,7 +287,7 @@ font-style: inherit;">=</span> np.maximum(shed_min, predicted)</span></code></pr
   <category>Agent based models</category>
   <category>Networks</category>
   <guid>https://starsimhub.github.io/blog/posts/2026.06.09_dose-response/</guid>
-  <pubDate>Tue, 09 Jun 2026 04:00:00 GMT</pubDate>
+  <pubDate>Tue, 09 Jun 2026 00:00:00 GMT</pubDate>
 </item>
 <item>
   <title>Welcome to the Starsim blog</title>
@@ -306,8 +306,251 @@ font-style: inherit;">=</span> np.maximum(shed_min, predicted)</span></code></pr
  ]]></description>
   <category>News</category>
   <guid>https://starsimhub.github.io/blog/posts/2026.06.08_welcome/</guid>
-  <pubDate>Mon, 08 Jun 2026 04:00:00 GMT</pubDate>
+  <pubDate>Mon, 08 Jun 2026 00:00:00 GMT</pubDate>
   <media:content url="https://starsimhub.github.io/blog/posts/2026.06.08_welcome/starsim-logo-light.png" medium="image" type="image/png" height="33" width="144"/>
+</item>
+<item>
+  <title>Modeling vaginal microbiome therapies for HIV and preterm birth in South Africa</title>
+  <dc:creator>Robyn Stuart</dc:creator>
+  <link>https://starsimhub.github.io/blog/posts/2026.03.15_vmb-hiv-ptb-south-africa/</link>
+  <description><![CDATA[ 
+
+
+
+
+
+<blockquote class="blockquote">
+<p><strong>TL;DR.</strong> Bacterial vaginosis (BV) is a disruption of the vaginal microbiome that affects up to half of women of reproductive age in sub-Saharan Africa, and it independently raises the risk of both HIV infection and spontaneous preterm birth. A new agent-based modeling study from within the Gates Foundation, built on the Starsim framework, asks what kind of vaginal microbiome therapy and what kind of clinical trial endpoint would actually deliver meaningful population impact. Across 2,400 scenarios in a South African cohort of 100,000 women, the team finds that durability drives HIV impact, efficacy drives preterm birth impact, and the probability of establishing durable community state type I (CST I), a <em>Lactobacillus crispatus</em> dominant microbiome, is the strongest single predictor of both.</p>
+</blockquote>
+<p><strong>Key numbers</strong> - Reference scenario (80% efficacy, 12-month duration): 172,968 HIV infections averted (6.5% of projected total) and 251,201 preterm births (PTB) averted (11.1%) over 2035 to 2050 - Best-case scenario (80% efficacy, 18-month duration): 248,756 HIV and 249,571 PTB averted - Duration effect at fixed 80% efficacy: 18-month products avert about 4 times as many HIV infections as 6-month products (248,756 vs 56,434) - CST I establishment at 6 months: 59.6% for an 80% efficacy / 12-month product vs 18.7% for 50% efficacy / 6-month - HIV per-act transmission probability multiplier for CST IV vs CST I: 1.8 times - Cohort: 100,000 South African women aged 15 to 49; primary time horizon 2035 to 2050</p>
+<p><strong>Source.</strong> Cohen J, Snyder L, Dillard L et al.&nbsp;(2026). <em>VMB Modeling Study: Interactive Dashboard</em>. Gates Foundation. Explore the live <a href="https://vmb-dashboard.starsim.org/">dashboard</a> and the <a href="https://github.com/starsimhub/vmb_gr_2026q1">code</a>. Manuscript in preparation.</p>
+<hr>
+<section id="motivation" class="level2">
+<h2 class="anchored" data-anchor-id="motivation">Motivation</h2>
+<p>Bacterial vaginosis is the most common vaginal condition in women of reproductive age in sub-Saharan Africa, with prevalence approaching half in some settings. Beyond its direct symptoms, BV has been independently linked to elevated risk of HIV acquisition and spontaneous preterm birth. The mechanism in each case runs through the vaginal microbiome: dysbiotic community states, notably CST IV (dominated by <em>Gardnerella</em> and <em>Prevotella</em> species), are associated with mucosal inflammation, breach of epithelial defenses, and altered host immune responses.</p>
+<p>A new generation of vaginal microbiome therapies, known as live biotherapeutic products (LBPs), aims to restore a protective microbiome dominated by <em>Lactobacillus crispatus</em> (CST I). Early clinical work has shown promise, but two practical questions have remained open. What combination of product characteristics, including efficacy, durability, and probability of establishing CST I, would be needed to achieve meaningful population impact? And what should clinical trials measure to demonstrate that impact convincingly?</p>
+</section>
+<section id="what-the-team-did" class="level2">
+<h2 class="anchored" data-anchor-id="what-the-team-did">What the team did</h2>
+<p>A team within the Gates Foundation built an agent-based model in <a href="https://starsim.org">Starsim</a> v3 of a South African cohort of 100,000 women aged 15 to 49. Four modules run together in the standard Starsim simulation loop:</p>
+<ul>
+<li>A <strong>BV natural history module</strong> representing the vaginal microbiome as one of three community state types. CST I (<em>L. crispatus</em> dominant) is the protective state. CST III (<em>L. iners</em> dominant) is intermediate. CST IV (<em>Gardnerella</em> or <em>Prevotella</em> dominant) is the primary BV state. Monthly transition probabilities between states are empirically calibrated, with rates modified by sexual behavior, vaginal health and hygiene, and predisposition.</li>
+<li>An <strong>HIV transmission module</strong> with per-act transmission probabilities stratified by CST state (CST IV at 1.8 times CST I, based on meta-analytic estimates). The sexual contact network is a dynamic pair-formation model with calibrated partnership rates and durations.</li>
+<li>A <strong>pregnancy and preterm birth module</strong> in which PTB risk is driven by cumulative inflammation across the three pregnancy trimesters. Each month a woman’s CST state contributes an inflammation cost (highest in trimester 1, CST IV up to 2.0 per month, CST I none). The cumulative score at delivery is translated to a relative PTB risk via a linear function. Persistent CST IV through pregnancy can reach a relative risk (RR) of around 1.7 times.</li>
+<li>A <strong>vaginal microbiome (VMB) intervention module</strong> representing product deployment. The model evaluates two product modalities (LBPs and antibiotics) across combinations of efficacy (0.3, 0.5, 0.7, 0.9), duration (3, 6, 12, 18, 24 months), CST I establishment rate (0.1 to 0.8), coverage (0.2 to 0.8), and target population (all women, BV symptomatic only, or pregnant women only). The reference delivery channel is symptom driven, with a 20% care-seeking rate per symptomatic episode; sensitivity analyses also explore asymptomatic prenatal screening.</li>
+</ul>
+<p>The full combinatorial sweep generates 2,400 distinct scenarios. Each was run 100 times with different random seeds to characterize stochastic uncertainty, with reported intervals representing the 2.5th to 97.5th percentile of replicate outcomes. Calibration targets included HIV incidence and prevalence (UNAIDS estimates for South Africa), BV prevalence and CST distribution (WISH and CAPRISA cohorts plus a pooled meta-analysis), and CST transition rates (LACTIN-V trial longitudinal data and unpublished cohort follow-up). Calibration used Starsim’s built-in framework with approximate Bayesian computation and a sequential Monte Carlo sampler.</p>
+</section>
+<section id="what-they-found" class="level2">
+<h2 class="anchored" data-anchor-id="what-they-found">What they found</h2>
+<p>Across the 2,400 scenarios, four robust patterns hold.</p>
+<p><strong>Duration drives HIV impact more than efficacy does.</strong> At 80% efficacy, an 18-month duration averts roughly four times as many HIV infections as a 6-month duration (248,756 vs 56,434 averted over 2035 to 2050). Shorter-acting products limit the network-level reduction in transmission no matter how effective they are per exposure.</p>
+<p><strong>Efficacy drives preterm birth impact more than duration does.</strong> PTB outcomes scale closer to linearly with per-episode efficacy. A short-acting product administered during pregnancy can meaningfully reduce PTB rates if it effectively resolves BV during the gestational window.</p>
+<p><strong>CST I establishment is the strongest single predictor of both outcomes.</strong> The probability that a treated woman establishes durable <em>L. crispatus</em> dominance acts as a multiplier on every downstream outcome. At the 80% efficacy and 12-month reference scenario, CST I at 6 months reaches 59.6%; at 50% efficacy and 6-month duration, only 18.7%.</p>
+<p><strong>The two outcomes are co-achievable.</strong> The reference scenario simultaneously averts 172,968 HIV infections (6.5% of the projected total in this cohort) and 251,201 preterm births (11.1%) over 2035 to 2050. The best-case scenario (80% efficacy, 18 months) reaches 248,756 HIV and 249,571 PTB averted. Co-benefits across both outcomes are robust to scenario assumptions.</p>
+</section>
+<section id="translation-to-clinical-trial-design" class="level2">
+<h2 class="anchored" data-anchor-id="translation-to-clinical-trial-design">Translation to clinical trial design</h2>
+<p>The modeling has already shaped how the next generation of LBP clinical trials is being designed. Investigators have shifted the primary endpoint of planned trials from simply reducing short-term BV recurrence to demonstrating a durable microbiome “cure” anchored in sustained CST I dominance. The new endpoint is more closely aligned with what the model identifies as the strongest predictor of long-term public health impact.</p>
+</section>
+<section id="caveats" class="level2">
+<h2 class="anchored" data-anchor-id="caveats">Caveats</h2>
+<p>The model is calibrated to a South African setting, and the BV-HIV and BV-PTB associations used as inputs come from meta-analytic and cohort sources that carry their own uncertainty. The PTB mechanism (cumulative trimester inflammation translated to relative risk via a linear function) is mechanistically simplified compared to the full biology.</p>
+<p>Care-seeking is modeled as symptom-driven at a uniform 20% per-episode rate, with prenatal screening as a sensitivity scenario. Cost assumptions are preliminary: the LBP per-course cost is evaluated across a wide $10 to $40 range reflecting current uncertainty, and the PTB cost input is under revision pending a systematic literature review.</p>
+</section>
+<section id="explore-the-dashboard" class="level2">
+<h2 class="anchored" data-anchor-id="explore-the-dashboard">Explore the dashboard</h2>
+<p>All 2,400 scenarios, including disability-adjusted life years (DALYs) averted, cost per DALY, and uncertainty intervals, can be filtered and compared interactively at <a href="https://vmb-dashboard.starsim.org/">vmb-dashboard.starsim.org</a>. The model code is open on <a href="https://github.com/starsimhub/vmb_gr_2026q1">GitHub</a>. The manuscript is in preparation.</p>
+
+
+</section>
+
+ ]]></description>
+  <category>HIV</category>
+  <category>Bacterial vaginosis</category>
+  <category>Preterm birth</category>
+  <category>South Africa</category>
+  <category>Dashboards</category>
+  <guid>https://starsimhub.github.io/blog/posts/2026.03.15_vmb-hiv-ptb-south-africa/</guid>
+  <pubDate>Sun, 15 Mar 2026 00:00:00 GMT</pubDate>
+</item>
+<item>
+  <title>Single-dose HPV vaccination, two years in: a lower bound on impact</title>
+  <dc:creator>Robyn Stuart</dc:creator>
+  <link>https://starsimhub.github.io/blog/posts/2026.01.22_hpv-single-dose-gavi/</link>
+  <description><![CDATA[ 
+
+
+
+
+
+<blockquote class="blockquote">
+<p><strong>TL;DR.</strong> HPV causes almost all cervical cancers, and the vaccines that prevent it are highly effective. In 2022 the WHO endorsed a single-dose schedule, which lets the same supply protect twice as many girls. By the end of 2024, nineteen Gavi-supported countries had switched. Across sixteen of those countries we estimate single-dose schedules reached 18.5M additional girls and will prevent at least 297,000 future cervical cancers. The “at least” matters: our counterfactual generously assumes every country would have introduced HPV vaccination anyway on a two-dose schedule.</p>
+</blockquote>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="https://starsimhub.github.io/blog/posts/2026.01.22_hpv-single-dose-gavi/headline-figure.png" class="img-fluid figure-img"></p>
+<figcaption>Cumulative cervical cancers and cases averted by single-dose introduction across 16 Gavi-supported countries, 2025 to 2125</figcaption>
+</figure>
+</div>
+<p><strong>Key numbers</strong> - Additional girls reached due to single-dose adoption: 18.5M (actual utilization) or 23.3M (complete utilization of all shipped doses) - Future cervical cancers averted: 297,000 (range 222,000 to 369,000) at actual utilization, 370,000 (356,000 to 376,000) at complete utilization - Number needed to vaccinate per cancer prevented: around 63, consistent with published estimates of 78 to 381 - Countries modelled: 16 of 19 Gavi single-dose adopters in 2023 and 2024, covering 99.9% of doses - Ethiopia, Nigeria, and Bangladesh together account for around 262,000 of the averted cancers</p>
+<p><strong>Source.</strong> Stuart R, Theopold N, Miall N, Kobayashi E, Vernam S, Taskin T, Dull PM. (2026). <em>The role of HPV single-dose vaccination in expanding access in GAVI-supported countries during a period of supply constraints</em>. Vaccine. <a href="https://doi.org/10.1016/j.vaccine.2025.128187">DOI</a>.</p>
+<hr>
+<section id="motivation" class="level2">
+<h2 class="anchored" data-anchor-id="motivation">Motivation</h2>
+<p>HPV vaccines have been available since 2007. The science behind them has only got stronger since, culminating in the WHO’s 2022 endorsement of a single-dose schedule as offering comparable protection to multi-dose regimens. Despite all of that, the access gap is huge. By the end of 2024 only 50% of low-income countries had introduced HPV vaccination at all, against 98% of high-income countries. The proportion of lower- and middle-income countries (LMICs) with HPV programs is better (85%), but weighted by population, more than half of LMIC residents still had no HPV vaccine access at the end of 2024. India’s 2026 introduction will move that number significantly, but it sits outside the period we studied.</p>
+<p>In the context of the WHO endorsement and the rapid adoption of single-dose schedules across LMICs, this study attempted to quantify what the policy change had actually bought in real-world settings: how many additional girls were reached, and how many future cervical cancers were prevented.</p>
+</section>
+<section id="what-we-did" class="level2">
+<h2 class="anchored" data-anchor-id="what-we-did">What we did</h2>
+<p><a href="https://github.com/starsim/hpvsim">HPVsim</a> is an agent-based HPV transmission and cervical disease progression model built on the <a href="https://starsim.org">Starsim</a> platform. We built 16 country-specific HPVsim models for this study, one for each of the Gavi single-dose adopters in 2023 and 2024 that was large enough to model individually. Each was populated with context-specific demographic, behavioral, and programmatic data, then calibrated to GLOBOCAN cervical cancer incidence using a hyper-parameter optimization algorithm.</p>
+<p>We compared four scenarios per country: no vaccination at all, a two-dose counterfactual with full utilization, single-dose with full utilization, and single-dose with the coverage actually reported. We ran 20 random seeds per scenario per country, giving us 10 to 90 percentile uncertainty ranges. UNICEF shipment data (51.4M one-dose and 10.8M two-dose doses shipped to Gavi countries in 2023 and 2024, with 5% or 10% wastage by vaccine profile) anchored the supply side.</p>
+</section>
+<section id="what-we-found" class="level2">
+<h2 class="anchored" data-anchor-id="what-we-found">What we found</h2>
+<p>Around 60 million doses were shipped to countries supported by Gavi to purchase HPV vaccines over 2023 and 2024. Under a 2-dose counterfactual, this would have protected 30 million girls against HPV; thanks to the 19 countries that shifted to single dose, an additional 23.3M girls were reached.</p>
+<p>The model estimates up to 370,000 future cervical cancer cases averted across the cohort eligible for vaccination in 2023 and 2024, if every shipped dose had reached a girl in the target age band. At the actually reported coverage levels the estimate is 297,000.</p>
+<p>Ethiopia, Nigeria, and Bangladesh together account for around 262,000 of the averted cancers, over half the total. The drivers are population size, cervical-cancer burden, and milestone multi-age cohort campaigns, such as the campaign efforts in Ethiopia that protected over 7 million girls aged 9 to 14 at launch.</p>
+</section>
+<section id="a-lower-bound-not-an-upper-bound" class="level2">
+<h2 class="anchored" data-anchor-id="a-lower-bound-not-an-upper-bound">A lower bound, not an upper bound</h2>
+<p>We assumed every country in the analysis would have introduced HPV vaccination anyway, just on a two-dose schedule. In reality, several of these countries might never have introduced HPV vaccination at all without the single-dose option to stretch the available supply. So our 297,000 and 370,000 averted-cancer figures are not the upper bound of what the 2022 WHO endorsement made possible: they are the lower bound. The true attributable impact is plausibly larger.</p>
+</section>
+<section id="where-the-conversation-goes-next" class="level2">
+<h2 class="anchored" data-anchor-id="where-the-conversation-goes-next">Where the conversation goes next</h2>
+<p>For a long time, the supply-side picture was a binding constraint for scaling up HPV vaccination. In the single-dose era, and as more manufacturers have appeared, the questions are evolving. With sufficient doses, it is feasible to vaccinate boys, to run aggressive catch-up campaigns, or to devise novel methods for reaching marginalized and neglected populations. HPV modeling research is now shifting to the impact and relative priority of expanded vaccine access strategies. This work, along with critically important studies on barriers to vaccine delivery and uptake, is essential to ensure that the full benefits of the single-dose recommendation are attained.</p>
+
+
+</section>
+
+ ]]></description>
+  <category>HPV</category>
+  <category>HPVsim</category>
+  <category>Vaccination</category>
+  <category>Cervical cancer</category>
+  <category>Gavi</category>
+  <guid>https://starsimhub.github.io/blog/posts/2026.01.22_hpv-single-dose-gavi/</guid>
+  <pubDate>Thu, 22 Jan 2026 00:00:00 GMT</pubDate>
+  <media:content url="https://starsimhub.github.io/blog/posts/2026.01.22_hpv-single-dose-gavi/headline-figure.png" medium="image" type="image/png" height="92" width="144"/>
+</item>
+<item>
+  <title>FPsim+: modeling the feedback between contraception and empowerment</title>
+  <dc:creator>Robyn Stuart</dc:creator>
+  <link>https://starsimhub.github.io/blog/posts/2024.08.21_fpsim-empowerment-kenya/</link>
+  <description><![CDATA[ 
+
+
+
+
+
+<blockquote class="blockquote">
+<p><strong>TL;DR.</strong> Family planning use and women’s empowerment are well-known to be positively associated, and the association runs in both directions: empowered women are more likely to use contraception, and access to contraception in turn supports women’s autonomy, paid work, and financial independence. Until now, no family planning model had captured this dynamic mechanistically. FPsim+ runs a custom Empowerment module alongside FPsim’s contraceptive choice in the same Starsim simulation. The two modules talk to each other through the Starsim agent-state interface, so empowerment indicators shape contraceptive behavior and contraceptive behavior shapes empowerment indicators on every step. The same architectural pattern means empowerment can also be coupled to disease and intervention modules from elsewhere in the Starsim family.</p>
+</blockquote>
+<p><strong>Key model components</strong> - Empowerment indicators tracked per agent: paid employment, decision over own wages, decision over major purchases, decision over clothing purchases, joint spending decisions with partner, savings, financial knowledge, financial goals - Custom modules: Empowerment, EmpoweredChoice (contraceptive choice that conditions on empowerment state) - Standard FPsim modules in use: Education, Pregnancy, demographics - Estimation: survey-weighted generalized linear models (GLMs) fit to PMA Kenya longitudinal panels, with bidirectional dependencies between contraceptive use and empowerment indicators - Calibration setting: Kenya, 2000 to 2020 - Calibration goodness of fit (full model): mean squared error (MSE) 0.087 ± 0.063 across targets including age-specific fertility rate (ASFR), total fertility rate (TFR), contraceptive prevalence (CPR), method mix, age at first birth, birth spacing, educational attainment, and paid employment</p>
+<p><strong>Source.</strong> Zimmermann M, Sanz-Leon P, Stuart R, Driano E, O’Brien M. (2024). <em>FPsim+: An Agent Based Model of Contraceptive Use and Empowerment</em>. VeriXiv 1:4. <a href="https://doi.org/10.12688/verixiv.39.1">DOI</a>. Code at <a href="https://github.com/fpsim/kenya_empowerment">fpsim/kenya_empowerment</a>.</p>
+<hr>
+<section id="motivation" class="level2">
+<h2 class="anchored" data-anchor-id="motivation">Motivation</h2>
+<p>The relationship between family planning (FP) and women’s empowerment is bidirectional. Women with more decision-making autonomy, paid employment, and financial control are more likely to use contraception. The reverse holds too: access to and use of contraception lets women make more informed reproductive choices, which expands their ability to pursue work, education, and financial goals. One of the most-cited non-health benefits of FP programs is that they empower women, but the reverse direction (empowered women adopt FP) is also well-documented in the cross-sectional literature.</p>
+<p>What has been missing is a mechanistic, dynamic understanding of how the two co-evolve at the individual level. Cross-sectional associations cannot tell us how a specific FP intervention propagates into empowerment outcomes, or how rising empowerment in a cohort feeds back into contraceptive uptake over time.</p>
+<p>No existing FP model has captured this dynamic. Early versions of FPsim, like other FP models, did not include women’s contraceptive intentions or the broader social impacts of FP. FPsim+ closes that gap.</p>
+</section>
+<section id="what-we-did" class="level2">
+<h2 class="anchored" data-anchor-id="what-we-did">What we did</h2>
+<p>FPsim is built on <a href="https://starsim.org">Starsim</a>, the agent-based modeling platform that hosts a family of related disease and behavioral models (HPVsim, HIVsim, STIsim, FPsim, and others). From v3 onwards, FPsim is a fully integrated member of that family. This is the architectural change that makes the empowerment work possible without bespoke wiring. A new module, like the Empowerment module here, is a peer to any other Starsim module. It reads from and writes to the shared agent-state in the standard way, runs on the standard simulation step, and composes with other modules in a single simulation. Baseline FPsim now ships with an Education module that uses the same pattern.</p>
+<p>For this work we added two custom modules to the standard Starsim execution loop:</p>
+<ul>
+<li>An <strong>Empowerment module</strong>. Each woman aged 15 to 49 carries a panel of binary empowerment indicators: paid employment, decision-making over her own wages, decisions over major purchases and clothing, joint spending decisions with her partner, savings, financial knowledge, and financial goals. These indicators are reassessed annually using survey-weighted generalized linear models fit to longitudinal PMA Kenya data. Predictors include the woman’s demographics (age, parity, education, urban or rural residence, wealth quintile), her contraceptive use in the prior year, and her previous empowerment state.</li>
+<li>An <strong>EmpoweredChoice contraceptive choice module</strong>. Standard FPsim contraceptive choice depends on demographics, parity, and prior contraceptive use. EmpoweredChoice extends this so that a woman’s empowerment state directly influences her probability of using contraception, her contraceptive intent, and her method choice.</li>
+</ul>
+<p>The two modules run together with FPsim’s Education and pregnancy modules in a single Starsim simulation. The result is a closed feedback loop. Empowerment indicators shape contraceptive behavior in the current year, and contraceptive behavior shapes empowerment indicators in the next.</p>
+<p>We calibrated the model to Kenya from 2000 to 2020 against the standard FPsim demographic targets (age-specific fertility rate, total fertility rate, contraceptive prevalence, method mix, age at first birth, birth spacing) and against educational attainment and paid employment. The full empowered model reaches MSE 0.087 ± 0.063 across these targets. A simplified variant that excludes the empowerment integration reaches MSE 0.29 ± 0.51 on the same targets, so the empowerment-enabled model also calibrates noticeably better to the Kenya data.</p>
+</section>
+<section id="what-this-enables" class="level2">
+<h2 class="anchored" data-anchor-id="what-this-enables">What this enables</h2>
+<p>With this architecture, a researcher modeling FP in Kenya can ask not only how a programmatic change in contraceptive access affects health outcomes (unplanned pregnancies, short birth intervals, maternal health), but also how the same change propagates into empowerment outcomes: paid employment, financial autonomy, decision-making power, savings, financial goals. The propagation happens through the calibrated GLM relationships and through the dynamic feedback loop, so it is responsive to the trajectory each cohort takes, not just to an aggregate elasticity.</p>
+<p>The same composability extends across the Starsim family. Because the Empowerment module is a peer to any other Starsim module, it can be combined with the HIV transmission and treatment modules in HIVsim, the STI modules in STIsim, or the cervical disease modules in HPVsim. Empowerment trajectories can interact with infection risk, health-seeking behavior, and treatment uptake in the same simulated population.</p>
+</section>
+<section id="caveats" class="level2">
+<h2 class="anchored" data-anchor-id="caveats">Caveats</h2>
+<p>The GLM coefficients that drive the empowerment dynamics are estimated from PMA Kenya. They are Kenya-specific. Transferring the empowerment integration to another setting requires recalibration of those relationships on local longitudinal data; the modeling architecture is portable but the empirical content is not.</p>
+<p>The empowerment indicators are constrained by what PMA measures longitudinally: paid work and financial autonomy dominate. Broader notions of empowerment, including political, social, and health-decision empowerment, are not captured here.</p>
+</section>
+<section id="where-this-fits" class="level2">
+<h2 class="anchored" data-anchor-id="where-this-fits">Where this fits</h2>
+<p>FPsim+ is a concrete demonstration that the Starsim family abstraction is doing what it was designed to do. A new behavioral module (empowerment) can be written once, composed with FPsim today, and composed with disease-side Starsim modules tomorrow, all without bespoke integration code. The Kenya empowerment work is one application of that pattern. Coupling empowerment to HIV-related risk and treatment trajectories, to HPV vaccination access, or to STI screening uptake is now mechanically straightforward.</p>
+
+
+</section>
+
+ ]]></description>
+  <category>Family planning</category>
+  <category>FPsim</category>
+  <category>Empowerment</category>
+  <category>Kenya</category>
+  <guid>https://starsimhub.github.io/blog/posts/2024.08.21_fpsim-empowerment-kenya/</guid>
+  <pubDate>Wed, 21 Aug 2024 00:00:00 GMT</pubDate>
+</item>
+<item>
+  <title>Covasim and test-trace-quarantine: where Starsim began</title>
+  <dc:creator>Robyn Stuart</dc:creator>
+  <link>https://starsimhub.github.io/blog/posts/2021.05.25_covasim-ttq-seattle/</link>
+  <description><![CDATA[ 
+
+
+
+
+
+<blockquote class="blockquote">
+<p><strong>TL;DR.</strong> In the first half of 2020, COVID-19 control in the United States rested on broad mobility restrictions: school closures, workplace closures, shelter-in-place orders. This paper, built on Covasim, an agent-based model calibrated to the first six months of the Seattle epidemic, showed that an aggressive test-trace-quarantine (TTQ) program could maintain epidemic control even under a full return to baseline mobility, given strong performance on testing rates, tracing rates, isolation compliance, and turnaround delays. The model’s projections were validated against the actual epidemic trajectory in Seattle from June through August 2020. Five years on, Covasim has been generalized into the Starsim framework. The modular contact-layer architecture, the separable intervention design, and the calibration discipline laid out in this paper became the template for the family of agent-based models that followed (HIVsim, HPVsim, STIsim, FPsim).</p>
+</blockquote>
+<p><strong>Key numbers</strong> - Approximately 100,000 SARS-CoV-2 infections estimated in Seattle and King County between 27 January and 9 June 2020 (95% confidence interval: 80,000 to 115,000), against 8,548 diagnosed cases - Attack rate (cumulative infections divided by population): 3.5 to 5.1% - Effective reproduction number (R_e) dropped from 2.3 prior to interventions to below 1 once the shelter-in-place order took effect - Transmission overdispersion: 10% of infected individuals were responsible for 50% of subsequent transmissions; 53% caused no secondary infections - Source of transmission by symptom status: 54% from symptomatic individuals, 32% asymptomatic, 14% presymptomatic - Transmission by contact layer before school closures: community 32%, household 26%, workplace 26%, school 14%, long-term care facility (LTCF) 1% - Transmission by contact layer after the stay-at-home order: household 46%, community 28%, workplace 24%, school 2% - Estimated effect of TTQ delays: a one-day delay in returning test results adds roughly 4 additional infections per person tested over a 90-day window; a one-day tracing delay adds roughly 2 additional infections per index case</p>
+<p><strong>Source.</strong> Kerr CC, Mistry D, Stuart RM, Rosenfeld K, Hart GR, Núñez RC, Cohen JA, Selvaraj P, Abeysuriya RG, Jastrzębski M, et al.&nbsp;(2021). <em>Controlling COVID-19 via test-trace-quarantine</em>. Nature Communications 12:2993. <a href="https://doi.org/10.1038/s41467-021-23276-9">DOI</a>. Code at <a href="https://github.com/InstituteforDiseaseModeling/covasim">InstituteforDiseaseModeling/covasim</a>.</p>
+<hr>
+<section id="motivation" class="level2">
+<h2 class="anchored" data-anchor-id="motivation">Motivation</h2>
+<p>When we did this work in early-to-mid 2020, the United States and most other countries were managing COVID-19 through broad, mobility-based non-pharmaceutical interventions (NPIs): school closures, workplace closures, shelter-in-place orders. These were effective at reducing transmission but carried enormous societal and economic costs. The pressing question was whether a more targeted strategy, built on testing, contact tracing, and quarantine, could maintain epidemic control as restrictions lifted.</p>
+<p>Several prior modeling studies had explored test-trace-quarantine (TTQ) in different contexts. What was missing was a detailed, data-driven, agent-based analysis grounded in a specific setting, calibrated to real epidemic data, and capable of disentangling the contributions of mobility restrictions from the contributions of testing and tracing programs themselves. Seattle and King County, Washington, was a natural setting: it was where the first documented COVID-19 case and the first death in the United States occurred, and the local response had been comparatively well-instrumented.</p>
+</section>
+<section id="what-we-did" class="level2">
+<h2 class="anchored" data-anchor-id="what-we-did">What we did</h2>
+<p>We built Covasim, an agent-based model of COVID-19. Agents are represented in five contact layers (household, school, workplace, community, and long-term care facility) with empirically calibrated structures generated by SynthPops from census, school enrolment, and workplace data. Within-host viral dynamics produce variable infectivity by symptom status and time from exposure. Interventions, including symptomatic and asymptomatic testing, contact tracing, isolation, quarantine, masks, and distancing, are implemented as separable, composable modules.</p>
+<p>We calibrated Covasim to age-stratified COVID-19 diagnosis and death data from Seattle and King County between 27 January and 9 June 2020, using SafeGraph mobility data for the workplace and community layers and Optuna for hyperparameter optimization. The calibrated model accurately reproduced cumulative diagnoses, cumulative deaths, and the age distribution of cases.</p>
+<p>Onto that baseline we layered TTQ scenarios across six aspects of the program: isolation and quarantine effectiveness, routine testing rates, household and workplace contact tracing probabilities, proportions of contacts tested after tracing, test-result return delays, and contact tracing delays. We then asked how each aspect contributed to attack rate under three mobility scenarios (60%, 80%, and 100% return to baseline) and three transmission settings (basic reproduction number R_0 of 2.0, 2.5, and 3.1).</p>
+</section>
+<section id="what-we-found" class="level2">
+<h2 class="anchored" data-anchor-id="what-we-found">What we found</h2>
+<p>The calibration alone produced findings worth reporting. The first six months of the Seattle epidemic involved roughly 100,000 SARS-CoV-2 infections, an order of magnitude more than the 8,548 cases diagnosed by 9 June. Transmission was highly overdispersed: 10% of infected people accounted for half of all subsequent transmissions, while 53% caused no secondary infections at all. Around 54% of transmissions were from symptomatic individuals, with the rest split between asymptomatic and presymptomatic sources.</p>
+<p>The school closures and stay-at-home order redistributed transmission dramatically. Before schools closed, community, household, and workplace each carried roughly a quarter of transmissions, with school at 14% and LTCFs at 1%. After the stay-at-home order, household transmission grew to 46% while school transmission dropped to 2%.</p>
+<p>On the TTQ question, the central finding was that an aggressive TTQ program could maintain R_e at or below 1 even under a full return to baseline mobility, given strong performance across all six aspects of the program. The contribution of each aspect was material. A one-day delay in returning test results was estimated to add roughly 4 additional infections per person tested over a 90-day window. A one-day delay in tracing added roughly 2 additional infections per traced index case. No single aspect of the program could compensate for severe weakness in another: epidemic control required strong performance across all aspects simultaneously.</p>
+<p>When mobility restrictions in Seattle were lifted in June 2020 and testing and tracing were subsequently scaled up, the actual epidemic trajectory through August closely matched the model’s projections. The real-world validation lent direct credibility to both the calibration and the TTQ analysis.</p>
+</section>
+<section id="what-this-set-in-motion" class="level2">
+<h2 class="anchored" data-anchor-id="what-this-set-in-motion">What this set in motion</h2>
+<p>Covasim was originally developed for this Seattle analysis. By the time the paper appeared in 2021, the same codebase had already been adapted for COVID-19 modeling in more than a dozen other settings (China, Vietnam, Australia, the United Kingdom, and many others). The architectural choices that made that portability possible, namely modular contact layers, separable intervention modules, agent-level state, and support for co-transmission, are the design principles that were later generalized into the Starsim framework. HIVsim, HPVsim, FPsim, and STIsim are all built on that lineage. Covasim itself is now a Starsim family member.</p>
+<p>Looking back, several decisions in this paper aged well. Agent-based modeling with detailed contact-layer structure was at the time more involved than most epidemic models attempted; it has since become the norm for the line of work that grew out of Covasim. The combination of calibration to real longitudinal data, mechanistic within-host representation, and explicit modeling of interventions as separable components has carried through largely unchanged into the broader Starsim ecosystem.</p>
+<p>The “high but achievable” framing for TTQ requirements also held up empirically. New Zealand, South Korea, Vietnam, and Australia maintained COVID-19 control in 2020 using broadly the components the modeling identified as necessary. Many other settings did not, for reasons that map onto the program aspects the paper had flagged as critical: testing capacity, tracing capacity, isolation compliance, and turnaround delays.</p>
+</section>
+<section id="caveats" class="level2">
+<h2 class="anchored" data-anchor-id="caveats">Caveats</h2>
+<p>The model assumed county-wide intervention parameters and did not represent geographic clustering or day-of-week mobility variation within the metropolitan area. Susceptibility and transmissibility heterogeneity by age and comorbidity were parameterized using the best evidence available in mid-2020 and carried substantial uncertainty. Several core features of SARS-CoV-2 transmission, including the proportion of asymptomatic and presymptomatic transmission and the effect of masking, were still being characterized when the analysis was performed; the paper handled this by propagating parameter uncertainty into the scenario outputs.</p>
+<p>The TTQ scenarios assumed no pharmaceutical interventions and modest mask efficacy and compliance. The arrival of vaccines from late 2020 and the subsequent emergence of variants substantially changed the parameter space the paper analyzed. The findings about TTQ as a containment strategy remain accurate as a description of what was required for control absent vaccines, but their relevance for current policy is largely historical.</p>
+</section>
+<section id="where-this-fits" class="level2">
+<h2 class="anchored" data-anchor-id="where-this-fits">Where this fits</h2>
+<p>This paper is the foundational publication for what became the Starsim family of agent-based disease models. The substantive scientific findings about TTQ as a containment strategy informed real-world policy responses in 2020 and 2021. The methodological choices, namely agent-level state, modular interventions, detailed contact networks, and calibration to longitudinal data, became the architectural template for the broader family of models that followed.</p>
+
+
+</section>
+
+ ]]></description>
+  <category>COVID-19</category>
+  <category>Covasim</category>
+  <category>Contact tracing</category>
+  <category>Agent based models</category>
+  <category>History</category>
+  <guid>https://starsimhub.github.io/blog/posts/2021.05.25_covasim-ttq-seattle/</guid>
+  <pubDate>Tue, 25 May 2021 00:00:00 GMT</pubDate>
 </item>
 </channel>
 </rss>
